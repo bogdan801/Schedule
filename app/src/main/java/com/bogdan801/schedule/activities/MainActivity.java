@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.bogdan801.schedule.adapters.MainViewPageAdapter;
 import com.bogdan801.schedule.fragments.LessonsScheduleFragment;
@@ -99,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        Toast.makeText(getApplicationContext(), "opened", Toast.LENGTH_SHORT);
     }
 
     public  void replaceFragment(Fragment newFrag, int containerId){
