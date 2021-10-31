@@ -35,26 +35,24 @@ public class ExcelTools {
             XSSFCell FirstRegCell = workbook.getSheetAt(sheet).getRow(cells.getFirstRow()).getCell(cells.getFirstColumn());
             
             switch (FirstRegCell.getCellType()) {
-                case STRING:
+                case 1:
                     return FirstRegCell.getStringCellValue();
-                case NUMERIC:
+                case 0:
                     return String.valueOf(FirstRegCell.getNumericCellValue());
-                case BOOLEAN:
+                case 4:
                     return String.valueOf(FirstRegCell.getBooleanCellValue());
                 default:
                     return "";
             }
             
-            
-            
         }
         else {
             switch (Cell.getCellType()) {
-                case STRING:
+                case 1:
                     return Cell.getStringCellValue();
-                case NUMERIC:
+                case 0:
                     return String.valueOf(Cell.getNumericCellValue());
-                case BOOLEAN:
+                case 4:
                     return String.valueOf(Cell.getBooleanCellValue());
                 default:
                     return "";
