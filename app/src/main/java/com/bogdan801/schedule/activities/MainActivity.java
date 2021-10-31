@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Toast.makeText(getApplicationContext(), "opened", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "opened", Toast.LENGTH_SHORT).show();
     }
 
     public  void replaceFragment(Fragment newFrag, int containerId){

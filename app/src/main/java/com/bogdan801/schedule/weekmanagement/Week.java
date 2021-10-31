@@ -3,6 +3,22 @@ package com.bogdan801.schedule.weekmanagement;
 import org.apache.poi.xssf.usermodel.*;
 import java.io.Serializable;
 
+
+class WeekExeption extends RuntimeException{
+    WeekExeption(String message){
+        super(message);
+    }
+}
+
+class WeekParsingExeption extends WeekExeption{
+    WeekParsingExeption(String message){
+        super(message);
+    }
+}
+
+
+//Клас для організації розкладу тижня з Excel файлу розкладу, мета організувати обраний стовпець файлу, поділити інформацію по дням, урокам, чисельнику чи знаменнику;
+//організувати доступ до даних
 public class Week implements Serializable {
     private Day[] days = new Day[5];
 
@@ -26,19 +42,26 @@ public class Week implements Serializable {
         }
         
         Parse(workbook, colomn);
+        
     }
 
     public void Parse(XSSFWorkbook workbook, int colomn){
+        int workbookLenth = workbook.getSheetAt(0).getPhysicalNumberOfRows();
+        if (workbookLenth < 14*5) throw new WeekParsingExeption("Excel sheet does not contain enough rows");
+
         int i = 0;
         for (int j = 0; j < days.length; j++) {
             for (int k = 0; k < 14; k++) {
-                days[j].AddLesson(k/2, (String)ExelTools.GetCellValue(workbook, 0, i + 6, colomn), k%2==0);
+                days[j].AddLesson(k/2, (String)ExcelTools.GetCellValue(workbook, 0, i + 6, colomn), k%2==0);
                 i++;
             }
         }
+
     }
 
     public void Parse(String[] week){
+        if(week.length < 5*14) throw new WeekParsingExeption("Array 'week' is to short");
+
         int i = 0;
         for (int j = 0; j < days.length; j++) {
             for (int k = 0; k < 14; k++) {
