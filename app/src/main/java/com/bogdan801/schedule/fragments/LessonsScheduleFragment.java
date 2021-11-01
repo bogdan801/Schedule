@@ -33,19 +33,15 @@ public class LessonsScheduleFragment extends Fragment {
     //parameter key
     private static final String WEEK_KEY = "week_key";
 
-
-
     //layout elements
     ConstraintLayout dowPanel;
     TextView[] daysOfWeekText = new TextView[5];
     FrameLayout dayIndicator;
 
-
     //private fields
     private Week week;
     private View fragmentView;
     private int dayOfWeek = 1;
-
 
     //empty constructor
     public LessonsScheduleFragment() {}
@@ -58,7 +54,6 @@ public class LessonsScheduleFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     //getting parent activity
     @Override
@@ -96,12 +91,14 @@ public class LessonsScheduleFragment extends Fragment {
         daysOfWeekText[4] = (TextView)fragmentView.findViewById(R.id.friT);
         dayIndicator = (FrameLayout)fragmentView.findViewById(R.id.dayIndicator);
 
-
+        //day of week navigation bar onClickListener
         View.OnClickListener dayClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //index of TextView of previously selected day
                 int startTextInd = dayOfWeek-1;
 
+                //starting bias of indicator
                 float startBias = 0;
                 switch (dayOfWeek){
                     case 1:
@@ -121,6 +118,7 @@ public class LessonsScheduleFragment extends Fragment {
                         break;
                 }
 
+                //ending bias of indicator, updating dayOfWeek
                 float endBias = 0;
                 switch (v.getId()){
                     case R.id.monT:
@@ -145,14 +143,19 @@ public class LessonsScheduleFragment extends Fragment {
                         break;
                 }
 
+                //new index of TextView of the selected day
                 int endTextInd = dayOfWeek-1;
 
-                if (startBias != endBias){
+                //if selected day is other then current, animate transition
+                if (startTextInd != endTextInd){
                     ConstraintSet set = new ConstraintSet();
                     set.clone(dowPanel);
 
+                    //animating value of horizontal bias of the indicator
                     final ValueAnimator anim = ValueAnimator.ofFloat(startBias, endBias);
-                    anim.setDuration(200);
+                    anim.setDuration(150);
+
+                    //onAnimationUpdate
                     anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
                         public void onAnimationUpdate(ValueAnimator animation) {
@@ -161,6 +164,7 @@ public class LessonsScheduleFragment extends Fragment {
                         }
                     });
 
+                    //onAnimationEnd
                     anim.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -181,4 +185,7 @@ public class LessonsScheduleFragment extends Fragment {
     }
 
 
+    public void setDayOfWeek(int day){
+        daysOfWeekText[day-1].performClick();
+    }
 }

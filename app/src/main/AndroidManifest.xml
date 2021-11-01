@@ -16,7 +16,8 @@
         android:theme="@style/Theme.Schedule">
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

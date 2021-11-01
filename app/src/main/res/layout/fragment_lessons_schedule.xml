@@ -30,6 +30,146 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/topScheduleGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.120181404" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/green_40"
+                app:layout_constraintBottom_toTopOf="@+id/cell2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topScheduleGuideline" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/green_40"
+                app:layout_constraintBottom_toTopOf="@+id/cell3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cell1">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/green_40"
+                app:layout_constraintBottom_toTopOf="@+id/cell4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cell2">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/green_60"
+                android:elevation="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/cell5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cell3">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/green_20"
+                app:layout_constraintBottom_toTopOf="@+id/cell6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cell4">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/green_20"
+                app:layout_constraintBottom_toTopOf="@+id/cell7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cell5" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cell7"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/green_20"
+                app:layout_constraintBottom_toTopOf="@id/bottomScheduleGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cell6" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottomScheduleGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.88" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/roboto_reg"
+                android:text="Понеділок"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintBottom_toTopOf="@+id/topScheduleGuideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.8" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="18.10.2021"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/topScheduleGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.8" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:checked="true"
+                android:fontFamily="@font/roboto_reg"
+                android:text="Чисельник"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bottomScheduleGuideline" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +191,7 @@
                 android:id="@+id/monT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="17dp"
                 android:elevation="6dp"
                 android:fontFamily="@font/open_sans_bold"
                 android:padding="15dp"
