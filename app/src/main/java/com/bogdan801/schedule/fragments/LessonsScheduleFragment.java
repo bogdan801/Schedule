@@ -1,5 +1,7 @@
 package com.bogdan801.schedule.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -158,13 +160,17 @@ public class LessonsScheduleFragment extends Fragment {
                             set.applyTo(dowPanel);
                         }
                     });
+
+                    anim.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            daysOfWeekText[endTextInd].setTextColor(ContextCompat.getColor(getActivity(), R.color.green_100));
+                        }
+                    });
+
                     anim.start();
 
-                    //daysOfWeekText[startTextInd].setTypeface(ResourcesCompat.getFont(getActivity(), R.font.open_sans));
                     daysOfWeekText[startTextInd].setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-
-                    //daysOfWeekText[endTextInd].setTypeface(ResourcesCompat.getFont(getActivity(), R.font.open_sans_bold));
-                    daysOfWeekText[endTextInd].setTextColor(ContextCompat.getColor(getActivity(), R.color.green_100));
                 }
             }
         };
