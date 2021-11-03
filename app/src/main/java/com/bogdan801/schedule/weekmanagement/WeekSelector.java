@@ -33,7 +33,7 @@ public class WeekSelector {
     private String selectedMajor = null;
     private String selectedYear = null;
     private String selectedGroup = null;
-    private Week week = null;
+    private WeekSchedule weekSchedule = null;
     private int colomn = -1;
     
     //В список (ArrayList<String> majors) записуються всі спеціальності з листа файлу
@@ -177,7 +177,7 @@ public class WeekSelector {
     }
 
     //Метод вибору групи за її назвою; повертає об'єкт Week, в який вже зчитаний розклад обраної групи
-    public Week SelectGroupAsWeek(String selectedGroup){
+    public WeekSchedule SelectGroupAsWeek(String selectedGroup){
         if (selectedMajor == null) throw new WrongSelectionOrderExeption("Major was not selected");
         if (selectedYear == null) throw new WrongSelectionOrderExeption("Year was not selected");
         if (!groups.contains(selectedGroup)) throw new WeekSelectorExeption("No such year in years list");
@@ -190,8 +190,8 @@ public class WeekSelector {
             String groupCellValue = (String)ExcelTools.GetCellValue(workbook, sheet, 4, i);
 
             if (majorCellValue.equals(selectedMajor) && yearCellValue.equals(selectedYear) && groupCellValue.equals(selectedGroup)) {
-                week = new Week(workbook, i);
-                return week;
+                weekSchedule = new WeekSchedule(workbook, i);
+                return weekSchedule;
             }
         }
 
@@ -199,7 +199,7 @@ public class WeekSelector {
     }
 
     //Метод вибору групи за її індексом; повертає об'єкт Week, в який вже зчитаний розклад обраної групи
-    public Week SelectGroupAsWeek(int selectedGroupIndex){
+    public WeekSchedule SelectGroupAsWeek(int selectedGroupIndex){
         if (selectedMajor == null) throw new WrongSelectionOrderExeption("Major was not selected");
         if (selectedYear == null) throw new WrongSelectionOrderExeption("Year was not selected");
         if (selectedGroupIndex < 0 || selectedGroupIndex >= groups.size()) throw new WeekSelectorExeption("Index out of bounds");
@@ -212,8 +212,8 @@ public class WeekSelector {
             String groupCellValue = (String)ExcelTools.GetCellValue(workbook, sheet, 4, i);
 
             if (majorCellValue.equals(selectedMajor) && yearCellValue.equals(selectedYear) && groupCellValue.equals(selectedGroup)) {
-                week = new Week(workbook, i);
-                return week;
+                weekSchedule = new WeekSchedule(workbook, i);
+                return weekSchedule;
             }
         }
 
@@ -266,8 +266,8 @@ public class WeekSelector {
     }
 
     //Метод повертає об'єкт Week, заповнений даними з обраного стовпця
-    public Week GetSelectedWeek(){
-        return week;
+    public WeekSchedule GetSelectedWeek(){
+        return weekSchedule;
     }
 
     //Метод повертає номер обраного стовпця

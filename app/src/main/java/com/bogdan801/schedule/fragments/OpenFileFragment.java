@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.bogdan801.schedule.R;
-import com.bogdan801.schedule.weekmanagement.Week;
+import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.apache.poi.ss.usermodel.Workbook;
@@ -26,7 +23,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     private View fragmentView;
 
     private Workbook workbook;
-    private Week week;
+    private WeekSchedule weekSchedule;
 
 
     public OpenFileFragment() {}

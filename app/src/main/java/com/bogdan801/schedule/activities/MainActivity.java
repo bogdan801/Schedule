@@ -2,25 +2,21 @@ package com.bogdan801.schedule.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.bogdan801.schedule.adapters.MainViewPageAdapter;
 import com.bogdan801.schedule.fragments.LessonsScheduleFragment;
 import com.bogdan801.schedule.R;
 import com.bogdan801.schedule.fragments.OpenFileFragment;
 import com.bogdan801.schedule.fragments.TimeScheduleFragment;
-import com.bogdan801.schedule.weekmanagement.Week;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -33,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     OpenFileFragment ofFrag = new OpenFileFragment();
     MainViewPageAdapter adapter = new MainViewPageAdapter(this);
 
-    Week week;
+    WeekSchedule weekSchedule;
     XSSFWorkbook workbook;
 
     ViewPager2 fragmentPager;

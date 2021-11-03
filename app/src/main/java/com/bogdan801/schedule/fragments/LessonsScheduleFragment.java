@@ -5,26 +5,22 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bogdan801.schedule.R;
-import com.bogdan801.schedule.weekmanagement.Week;
+import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 
 public class LessonsScheduleFragment extends Fragment {
     //patent activity
@@ -39,7 +35,7 @@ public class LessonsScheduleFragment extends Fragment {
     FrameLayout dayIndicator;
 
     //private fields
-    private Week week;
+    private WeekSchedule weekSchedule;
     private View fragmentView;
     private int dayOfWeek = 1;
 
@@ -47,7 +43,7 @@ public class LessonsScheduleFragment extends Fragment {
     public LessonsScheduleFragment() {}
 
     //method to create new instance of a fragment with parameter
-    public static LessonsScheduleFragment newInstance(Week param1) {
+    public static LessonsScheduleFragment newInstance(WeekSchedule param1) {
         LessonsScheduleFragment fragment = new LessonsScheduleFragment();
         Bundle args = new Bundle();
         args.putSerializable(WEEK_KEY, param1);
@@ -69,7 +65,7 @@ public class LessonsScheduleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            week = (Week)getArguments().getSerializable(WEEK_KEY);
+            weekSchedule = (WeekSchedule)getArguments().getSerializable(WEEK_KEY);
         }
     }
 

@@ -19,24 +19,24 @@ class WeekParsingExeption extends WeekExeption{
 
 //Клас для організації розкладу тижня з Excel файлу розкладу, мета організувати обраний стовпець файлу, поділити інформацію по дням, урокам, чисельнику чи знаменнику;
 //організувати доступ до даних
-public class Week implements Serializable {
+public class WeekSchedule implements Serializable {
     private Day[] days = new Day[5];
 
 
-    public Week(String[] week){
+    public WeekSchedule(String[] week){
         for (int i = 0; i < days.length; i++) {
             days[i] = new Day();
         }
         Parse(week);
     }
 
-    public Week(){
+    public WeekSchedule(){
         for (int i = 0; i < days.length; i++) {
             days[i] = new Day();
         }
     }
 
-    public Week(XSSFWorkbook workbook, int colomn){
+    public WeekSchedule(XSSFWorkbook workbook, int colomn){
         for (int i = 0; i < days.length; i++) {
             days[i] = new Day();
         }
