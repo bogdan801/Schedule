@@ -16,8 +16,10 @@ import android.widget.TimePicker;
 
 import com.bogdan801.schedule.R;
 import com.bogdan801.schedule.timemanagement.Time;
+import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
-
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 
 public class TimeScheduleFragment extends Fragment {
@@ -29,8 +31,9 @@ public class TimeScheduleFragment extends Fragment {
 
     //private fields
     private WeekSchedule weekSchedule;
+    private TimeSchedule timeSchedule;
     private View fragmentView;
-    TextView textView;
+    private TextView text;
 
     //empty constructor
     public TimeScheduleFragment() {}
@@ -70,35 +73,38 @@ public class TimeScheduleFragment extends Fragment {
     }
 
 
+
+
     //creating lookups and attaching view listeners
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         fragmentView = view;
-        textView = (TextView)fragmentView.findViewById(R.id.textView2);
+        text = (TextView)view.findViewById(R.id.textView5);
 
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog tp = new TimePickerDialog(
-                        getActivity(),
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                Time time = new Time(hourOfDay, minute);
-                                textView.setText(time.toString());
-
-
-                            }
-                        },
-                        12,
-                        0,
-                        true
-                );
-
-                tp.show();
-
-
-            }
-        });
+        text.setOnClickListener(timeTextViewOnClickListener);
     }
+
+    View.OnClickListener timeTextViewOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            TextView view = (TextView)v;
+            MaterialTimePicker mtp = new MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setHour(12)
+                    .setMinute(0)
+                    .setTitleText("Оберіть час")
+                    .build();
+
+            mtp.addOnPositiveButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Time time = new Time(mtp.getHour(), mtp.getMinute());
+                    view.setText(time.toString());
+                }
+            });
+
+            mtp.show(getParentFragmentManager(), getTag());
+        }
+    };
+
 }
