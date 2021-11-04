@@ -18,16 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bogdan801.schedule.R;
+import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 
 public class LessonsScheduleFragment extends Fragment {
     //patent activity
     FragmentActivity listener;
-
-    //parameter key
-    private static final String WEEK_KEY = "week_key";
 
     //layout elements
     ConstraintLayout dowPanel;
@@ -36,19 +35,16 @@ public class LessonsScheduleFragment extends Fragment {
 
     //private fields
     private WeekSchedule weekSchedule;
+    private TimeSchedule timeSchedule;
     private View fragmentView;
     private int dayOfWeek = 1;
 
     //empty constructor
     public LessonsScheduleFragment() {}
 
-    //method to create new instance of a fragment with parameter
-    public static LessonsScheduleFragment newInstance(WeekSchedule param1) {
-        LessonsScheduleFragment fragment = new LessonsScheduleFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(WEEK_KEY, param1);
-        fragment.setArguments(args);
-        return fragment;
+    public void setUpSchedules(WeekSchedule week, TimeSchedule time){
+        weekSchedule = week;
+        timeSchedule = time;
     }
 
     //getting parent activity
@@ -57,15 +53,6 @@ public class LessonsScheduleFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof Activity){
             this.listener = (FragmentActivity) context;
-        }
-    }
-
-    //event occurs when fragment is being created
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            weekSchedule = (WeekSchedule)getArguments().getSerializable(WEEK_KEY);
         }
     }
 
@@ -91,6 +78,7 @@ public class LessonsScheduleFragment extends Fragment {
         View.OnClickListener dayClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //index of TextView of previously selected day
                 int startTextInd = dayOfWeek-1;
 
@@ -179,7 +167,6 @@ public class LessonsScheduleFragment extends Fragment {
             daysOfWeekText[i].setOnClickListener(dayClickListener);
         }
     }
-
 
     public void setDayOfWeek(int day){
         daysOfWeekText[day-1].performClick();

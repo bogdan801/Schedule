@@ -3,6 +3,8 @@ package com.bogdan801.schedule.timemanagement;
 import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
+
 
 class TimeException extends RuntimeException{
     TimeException(String message){
@@ -10,7 +12,7 @@ class TimeException extends RuntimeException{
     }
 }
 
-public class Time {
+public class Time implements Serializable {
     private int hours = 0;
     private int minutes = 0;
 
@@ -18,6 +20,10 @@ public class Time {
     public Time(int hours, int minutes){
         setHours(hours);
         setMinutes(minutes);
+    }
+
+    public Time(String timeString){
+        parseTimeFromString(timeString);
     }
 
     public void setHours(int hours) {
@@ -28,6 +34,14 @@ public class Time {
     public void setMinutes(int minutes) {
         if(minutes>=0 && minutes<=59) this.minutes = minutes;
         else throw new TimeException("Value of minutes \"" + minutes + "\" is out of bounds(0-59)");
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public int getMinutes() {
+        return minutes;
     }
 
     public boolean isEqual(Time t){
@@ -42,7 +56,21 @@ public class Time {
         return hours < t.hours || (hours == t.hours && minutes < t.minutes);
     }
 
+    public  boolean isBetween(Time start, Time end){
+        return this.isGreater(start) && this.isLesser(end);
+    }
 
+    public void parseTimeFromString(String timeString){
+        String[] splitted = timeString.split(":");
+        if(splitted.length!=2) throw new TimeException("The string provided has wrong format. The correct one is hh:ss");
+        try {
+            setHours(Integer.parseInt(splitted[0]));
+            setMinutes(Integer.parseInt(splitted[1]));
+        }catch (Exception e){
+            throw new TimeException("The string provided has wrong format. The correct one is hh:ss");
+        }
+
+    }
 
     @SuppressLint("DefaultLocale")
     @NonNull

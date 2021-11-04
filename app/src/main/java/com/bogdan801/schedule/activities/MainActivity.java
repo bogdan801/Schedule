@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.bogdan801.schedule.adapters.MainViewPageAdapter;
 import com.bogdan801.schedule.fragments.LessonsScheduleFragment;
 import com.bogdan801.schedule.R;
 import com.bogdan801.schedule.fragments.OpenFileFragment;
 import com.bogdan801.schedule.fragments.TimeScheduleFragment;
+import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     OpenFileFragment ofFrag = new OpenFileFragment();
     MainViewPageAdapter adapter = new MainViewPageAdapter(this);
 
-    WeekSchedule weekSchedule;
+    WeekSchedule weekSchedule = new WeekSchedule();
+    TimeSchedule timeSchedule = new TimeSchedule();
     XSSFWorkbook workbook;
 
     ViewPager2 fragmentPager;
@@ -48,18 +51,16 @@ public class MainActivity extends AppCompatActivity {
         ofButton = (FloatingActionButton)findViewById(R.id.openFileButton);
         tsButton.getBackground().setAlpha(0);
 
-
         fragmentPager.setAdapter(adapter);
         lsFrag = (LessonsScheduleFragment) adapter.getFragment(0);
         tsFrag = (TimeScheduleFragment) adapter.getFragment(1);
-
 
         fragmentPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+
                 double realPosition = position + positionOffset;
-                //activeFragment = position;
                 activeFragment = (realPosition < 0.5)? 0 : 1;
 
                 int alpha = (int)(realPosition*255);
@@ -91,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
         ofButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("bob", "ggg");
                 ofFrag.show(getSupportFragmentManager(), ofFrag.getTag());
             }
         });
 
+        lsFrag.setUpSchedules(weekSchedule, timeSchedule);
+        tsFrag.setUpSchedules(weekSchedule, timeSchedule);
     }
 
     public  void replaceFragment(Fragment newFrag, int containerId){
@@ -114,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         }catch (IOException e){
             Log.d("puk", e.getLocalizedMessage());
         }
-
     }
 
     public Object Deserialize(String fileName) throws IOException{
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (IOException e){
             Log.d("puk", e.getLocalizedMessage());
             throw e;
-        }catch (ClassNotFoundException e){}
+        }catch (ClassNotFoundException ignored){}
         return o;
     }
 }

@@ -1,6 +1,8 @@
 package com.bogdan801.schedule.timemanagement;
 
-class LessonDuration {
+import java.io.Serializable;
+
+class LessonDuration implements Serializable{
     private Time start;
     private Time end;
 
@@ -27,7 +29,7 @@ class LessonDuration {
     }
 }
 
-public class TimeSchedule {
+public class TimeSchedule implements Serializable {
     LessonDuration[] lessonsTime = new LessonDuration[7];
     public TimeSchedule(){
         lessonsTime[0] = new LessonDuration(new Time(8,30), new Time(9,50));
