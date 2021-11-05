@@ -25,7 +25,6 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     private Workbook workbook;
     private WeekSchedule weekSchedule;
 
-
     public OpenFileFragment() {}
 
     //getting parent activity
@@ -37,20 +36,15 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
         }
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setStyle(STYLE_NORMAL, R.style.Theme_Schedule);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         ContextThemeWrapper ctw = new  ContextThemeWrapper(listener.getApplicationContext(), R.style.Theme_Schedule);
-        //var contextThemeWrapper = new ContextThemeWrapper(activity, R.style.AppTheme);
         return inflater.cloneInContext(ctw).inflate(R.layout.fragment_open_file, container, false);
     }
 

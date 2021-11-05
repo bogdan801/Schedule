@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 ofFrag.show(getSupportFragmentManager(), ofFrag.getTag());
             }
         });
+
+        //ofFrag.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
         lsFrag.setUpSchedules(weekSchedule, timeSchedule);
         tsFrag.setUpSchedules(weekSchedule, timeSchedule);
