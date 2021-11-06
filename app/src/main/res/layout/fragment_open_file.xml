@@ -2,21 +2,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheetFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/offrag_panel_background"
     tools:context=".fragments.OpenFileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomSheetPanel"
         android:layout_width="match_parent"
         android:layout_height="440dp">
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/sliderDecoration"
             android:layout_width="48dp"
             android:layout_height="8dp"
             android:background="@drawable/offrag_slider_decoration_background"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintBottom_toTopOf="@+id/fileNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +26,7 @@
             app:layout_constraintVertical_bias="0.55" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/fileNameTextView"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginStart="16dp"
@@ -39,12 +41,12 @@
             android:singleLine="true"
             android:text="Файл розкладу (.xlsx)"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@+id/openButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/openButton"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginTop="48dp"
@@ -56,94 +58,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/spinnersPanel"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
+            app:layout_constraintBottom_toTopOf="@+id/chooseScheduleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+            app:layout_constraintTop_toBottomOf="@+id/fileNameTextView">
 
             <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginBottom="2dp"
-                android:fontFamily="sans-serif"
-                android:text="Група"
-                android:textColor="@color/green_100"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/spinner3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Spinner
-                android:id="@+id/spinner3"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:background="@drawable/tsfrag_textview_background"
-                android:entries="@array/days_of_week"
-                android:popupBackground="@drawable/offrag_spinner_popup_background"
-                android:popupElevation="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner2" />
-
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:background="@drawable/tsfrag_textview_background"
-                android:entries="@array/days_of_week"
-                android:popupBackground="@drawable/offrag_spinner_popup_background"
-                android:popupElevation="5dp"
-                app:layout_constraintBottom_toTopOf="@+id/spinner3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginBottom="2dp"
-                android:fontFamily="sans-serif"
-                android:text="Курс"
-                android:textColor="@color/green_100"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/spinner2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/tsfrag_textview_background"
-                android:entries="@array/days_of_week"
-                android:popupBackground="@drawable/offrag_spinner_popup_background"
-                android:popupElevation="5dp"
-                app:layout_constraintBottom_toTopOf="@+id/spinner2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread_inside" />
-
-            <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/majorLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
@@ -152,14 +81,85 @@
                 android:text="Напрям"
                 android:textColor="@color/green_100"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/spinner"
+                app:layout_constraintBottom_toTopOf="@+id/majorSpinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/majorSpinner"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/tsfrag_textview_background"
+                android:popupBackground="@drawable/offrag_spinner_popup_background"
+                android:popupElevation="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/yearSpinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
+
+            <TextView
+                android:id="@+id/yearLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="2dp"
+                android:fontFamily="sans-serif"
+                android:text="Курс"
+                android:textColor="@color/green_100"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/yearSpinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/yearSpinner"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:background="@drawable/tsfrag_textview_background"
+                android:popupBackground="@drawable/offrag_spinner_popup_background"
+                android:popupElevation="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/groupSpinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/majorSpinner" />
+
+            <Spinner
+                android:id="@+id/groupSpinner"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:background="@drawable/tsfrag_textview_background"
+                android:popupBackground="@drawable/offrag_spinner_popup_background"
+                android:popupElevation="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yearSpinner" />
+
+            <TextView
+                android:id="@+id/groupLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="2dp"
+                android:fontFamily="sans-serif"
+                android:text="Група"
+                android:textColor="@color/green_100"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/groupSpinner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/chooseScheduleButton"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginBottom="24dp"

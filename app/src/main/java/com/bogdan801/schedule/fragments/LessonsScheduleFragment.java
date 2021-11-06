@@ -16,7 +16,9 @@ import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +27,12 @@ import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 
 public class LessonsScheduleFragment extends Fragment {
-    //patent activity
-    FragmentActivity listener;
-
     //layout elements
     ConstraintLayout dowPanel;
-    TextView[] daysOfWeekText = new TextView[5];
     FrameLayout dayIndicator;
+    TextView[] daysOfWeekText = new TextView[5];
+    TextView[] cells = new TextView[7];
+    Switch isNumeratorSwitch;
 
     //private fields
     private WeekSchedule weekSchedule;
@@ -47,15 +48,6 @@ public class LessonsScheduleFragment extends Fragment {
         timeSchedule = time;
     }
 
-    //getting parent activity
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity){
-            this.listener = (FragmentActivity) context;
-        }
-    }
-
     //inflating fragment view
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,12 +59,32 @@ public class LessonsScheduleFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         fragmentView = view;
         dowPanel = (ConstraintLayout)fragmentView.findViewById(R.id.dayOfWeekPanel);
+        dayIndicator = (FrameLayout)fragmentView.findViewById(R.id.dayIndicator);
+
         daysOfWeekText[0] = (TextView)fragmentView.findViewById(R.id.monT);
         daysOfWeekText[1] = (TextView)fragmentView.findViewById(R.id.tueT);
         daysOfWeekText[2] = (TextView)fragmentView.findViewById(R.id.wenT);
         daysOfWeekText[3] = (TextView)fragmentView.findViewById(R.id.thuT);
         daysOfWeekText[4] = (TextView)fragmentView.findViewById(R.id.friT);
-        dayIndicator = (FrameLayout)fragmentView.findViewById(R.id.dayIndicator);
+
+        cells[0] = (TextView)fragmentView.findViewById(R.id.cell1Text);
+        cells[1] = (TextView)fragmentView.findViewById(R.id.cell2Text);
+        cells[2] = (TextView)fragmentView.findViewById(R.id.cell3Text);
+        cells[3] = (TextView)fragmentView.findViewById(R.id.cell4Text);
+        cells[4] = (TextView)fragmentView.findViewById(R.id.cell5Text);
+        cells[5] = (TextView)fragmentView.findViewById(R.id.cell6Text);
+        cells[6] = (TextView)fragmentView.findViewById(R.id.cell7Text);
+
+        isNumeratorSwitch = (Switch)fragmentView.findViewById(R.id.isNumeratorSwitch);
+        isNumeratorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isNumeratorSwitch.setText((isChecked)?"Чисельник  ":"Знаменник ");
+                showDay();
+            }
+        });
+
+
 
         //day of week navigation bar onClickListener
         View.OnClickListener dayClickListener = new View.OnClickListener() {
@@ -159,6 +171,8 @@ public class LessonsScheduleFragment extends Fragment {
                     anim.start();
 
                     daysOfWeekText[startTextInd].setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+
+                    showDay();
                 }
             }
         };
@@ -170,5 +184,12 @@ public class LessonsScheduleFragment extends Fragment {
 
     public void setDayOfWeek(int day){
         daysOfWeekText[day-1].performClick();
+    }
+
+    public void showDay(){
+        String[] lessons = weekSchedule.GetSchedule(dayOfWeek, isNumeratorSwitch.isChecked());
+        for (int i = 0; i < cells.length; i++) {
+            cells[i].setText(lessons[i]);
+        }
     }
 }

@@ -97,10 +97,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //ofFrag.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
         lsFrag.setUpSchedules(weekSchedule, timeSchedule);
         tsFrag.setUpSchedules(weekSchedule, timeSchedule);
+    }
+
+
+    public void updateWeekSchedule(WeekSchedule weekSchedule){
+        this.weekSchedule = weekSchedule;
+        lsFrag.setUpSchedules(weekSchedule, timeSchedule);
+        lsFrag.showDay();
+    }
+
+    public void showDay(int day){
+        lsFrag.showDay();
     }
 
     public  void replaceFragment(Fragment newFrag, int containerId){

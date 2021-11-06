@@ -34,6 +34,7 @@ public class WeekSchedule implements Serializable {
         for (int i = 0; i < days.length; i++) {
             days[i] = new Day();
         }
+        Parse();
     }
 
     public WeekSchedule(XSSFWorkbook workbook, int colomn){
@@ -42,7 +43,6 @@ public class WeekSchedule implements Serializable {
         }
         
         Parse(workbook, colomn);
-        
     }
 
     public void Parse(XSSFWorkbook workbook, int colomn){
@@ -71,6 +71,16 @@ public class WeekSchedule implements Serializable {
         }
     }
 
+    public void Parse() {
+        int i = 0;
+        for (int j = 0; j < days.length; j++) {
+            for (int k = 0; k < 14; k++) {
+                days[j].AddLesson(k / 2, "", k % 2 == 0);
+                i++;
+            }
+        }
+    }
+
     public Day GetDay(int index){
         return days[index-1];
     }
@@ -83,6 +93,8 @@ public class WeekSchedule implements Serializable {
         String daySchedule[] = new String[7];
         for (Integer i = 1; i <= 7; i++) {
             String lesson = GetLesson(Day, i, isNumerator);
+            lesson = lesson.replace("\n", " ").replace("\r", " ");
+
             daySchedule[i-1] = i.toString() + ". " + (lesson.isEmpty()? " - ":lesson);
         }
 
