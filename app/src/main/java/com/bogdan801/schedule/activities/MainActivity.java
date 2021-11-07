@@ -97,25 +97,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        try {
+            weekSchedule = (WeekSchedule) Deserialize("week.bin");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         lsFrag.setUpSchedules(weekSchedule, timeSchedule);
         tsFrag.setUpSchedules(weekSchedule, timeSchedule);
     }
 
-
     public void updateWeekSchedule(WeekSchedule weekSchedule){
         this.weekSchedule = weekSchedule;
         lsFrag.setUpSchedules(weekSchedule, timeSchedule);
+        lsFrag.setVisibility();
         lsFrag.showDay();
-    }
-
-    public void showDay(int day){
-        lsFrag.showDay();
-    }
-
-    public  void replaceFragment(Fragment newFrag, int containerId){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(containerId, newFrag);
-        ft.commit();
     }
 
     public void Serialize(Object o, String fileName){

@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.os.Debug;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +30,12 @@ import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 
 public class LessonsScheduleFragment extends Fragment {
     //layout elements
-    ConstraintLayout dowPanel;
-    FrameLayout dayIndicator;
-    TextView[] daysOfWeekText = new TextView[5];
+    ConstraintLayout basePanel;
+    TextView dayOfWeekLabel;
     TextView[] cells = new TextView[7];
+    ConstraintLayout dowPanel;
+    TextView[] daysOfWeekText = new TextView[5];
+    FrameLayout dayIndicator;
     Switch isNumeratorSwitch;
 
     //private fields
@@ -39,6 +43,7 @@ public class LessonsScheduleFragment extends Fragment {
     private TimeSchedule timeSchedule;
     private View fragmentView;
     private int dayOfWeek = 1;
+    private String[] daysOfWeekNames;
 
     //empty constructor
     public LessonsScheduleFragment() {}
@@ -58,6 +63,11 @@ public class LessonsScheduleFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         fragmentView = view;
+
+        basePanel = (ConstraintLayout)fragmentView.findViewById(R.id.basePanel);
+        daysOfWeekNames = view.getResources().getStringArray(R.array.days_of_week);
+        dayOfWeekLabel = (TextView)fragmentView.findViewById(R.id.dayOfWeekLabel);
+
         dowPanel = (ConstraintLayout)fragmentView.findViewById(R.id.dayOfWeekPanel);
         dayIndicator = (FrameLayout)fragmentView.findViewById(R.id.dayIndicator);
 
@@ -85,6 +95,7 @@ public class LessonsScheduleFragment extends Fragment {
         });
 
 
+        setVisibility();
 
         //day of week navigation bar onClickListener
         View.OnClickListener dayClickListener = new View.OnClickListener() {
@@ -186,7 +197,17 @@ public class LessonsScheduleFragment extends Fragment {
         daysOfWeekText[day-1].performClick();
     }
 
+    public void setVisibility(){
+        if (weekSchedule.isEmpty()){
+            basePanel.setVisibility(View.GONE);
+        }
+        else {
+            basePanel.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void showDay(){
+        dayOfWeekLabel.setText(daysOfWeekNames[dayOfWeek-1]);
         String[] lessons = weekSchedule.GetSchedule(dayOfWeek, isNumeratorSwitch.isChecked());
         for (int i = 0; i < cells.length; i++) {
             cells[i].setText(lessons[i]);

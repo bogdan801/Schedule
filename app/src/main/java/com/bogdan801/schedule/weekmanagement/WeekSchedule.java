@@ -21,7 +21,7 @@ class WeekParsingExeption extends WeekExeption{
 //організувати доступ до даних
 public class WeekSchedule implements Serializable {
     private Day[] days = new Day[5];
-
+    private boolean isEmpty = true;
 
     public WeekSchedule(String[] week){
         for (int i = 0; i < days.length; i++) {
@@ -57,6 +57,7 @@ public class WeekSchedule implements Serializable {
             }
         }
 
+        isEmpty = false;
     }
 
     public void Parse(String[] week){
@@ -69,6 +70,8 @@ public class WeekSchedule implements Serializable {
                 i++;
             }
         }
+
+        isEmpty = false;
     }
 
     public void Parse() {
@@ -79,6 +82,12 @@ public class WeekSchedule implements Serializable {
                 i++;
             }
         }
+
+        isEmpty = true;
+    }
+
+    public boolean isEmpty(){
+        return isEmpty;
     }
 
     public Day GetDay(int index){
