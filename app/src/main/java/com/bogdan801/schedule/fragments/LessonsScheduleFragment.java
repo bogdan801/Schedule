@@ -198,12 +198,16 @@ public class LessonsScheduleFragment extends Fragment {
     }
 
     public void setVisibility(){
-        if (weekSchedule.isEmpty()){
-            basePanel.setVisibility(View.GONE);
+        if (weekSchedule!=null){
+            if (weekSchedule.isEmpty()){
+                basePanel.setVisibility(View.GONE);
+            }
+            else {
+                basePanel.setVisibility(View.VISIBLE);
+            }
         }
-        else {
-            basePanel.setVisibility(View.VISIBLE);
-        }
+        else basePanel.setVisibility(View.GONE);
+
     }
 
     public void showDay(){
