@@ -189,7 +189,7 @@ public class WeekSelector {
     public int SelectGroupAsColumnNum(int selectedGroupIndex){
         if (selectedMajor == null) throw new WrongSelectionOrderExeption("Major was not selected");
         if (selectedYear == null) throw new WrongSelectionOrderExeption("Year was not selected");
-        if (selectedGroupIndex < 0 || selectedGroupIndex >= groups.size()) throw new WeekSelectorExeption("Index out of bounds");
+        if (selectedGroupIndex < 0 || selectedGroupIndex >= groups.size()) throw new WeekSelectorExeption("Index "+selectedGroupIndex+" out of bounds");
         return SelectGroupAsColumnNum(groups.get(selectedGroupIndex));
     }
 

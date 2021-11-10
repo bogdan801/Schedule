@@ -29,12 +29,18 @@ import com.bogdan801.schedule.timemanagement.Time;
 import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import java.time.LocalDate;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LessonsScheduleFragment extends Fragment {
     //layout elements
     ConstraintLayout basePanel;
     TextView dayOfWeekLabel;
+    TextView chosenDayDateLabel;
+    ConstraintLayout[] cellBackgrounds = new ConstraintLayout[7];
     TextView[] cells = new TextView[7];
     ConstraintLayout dowPanel;
     TextView[] daysOfWeekText = new TextView[5];
@@ -76,12 +82,20 @@ public class LessonsScheduleFragment extends Fragment {
 
         //schedule panel
 
-        //day of week label
+        //top labels
         dayOfWeekLabel = (TextView)fragmentView.findViewById(R.id.dayOfWeekLabel);
+        chosenDayDateLabel = (TextView)fragmentView.findViewById(R.id.dateLabel);
+
 
         //schedule cells
         //backgrounds
-
+        cellBackgrounds[0] = (ConstraintLayout) fragmentView.findViewById(R.id.cell1);
+        cellBackgrounds[1] = (ConstraintLayout) fragmentView.findViewById(R.id.cell2);
+        cellBackgrounds[2] = (ConstraintLayout) fragmentView.findViewById(R.id.cell3);
+        cellBackgrounds[3] = (ConstraintLayout) fragmentView.findViewById(R.id.cell4);
+        cellBackgrounds[4] = (ConstraintLayout) fragmentView.findViewById(R.id.cell5);
+        cellBackgrounds[5] = (ConstraintLayout) fragmentView.findViewById(R.id.cell6);
+        cellBackgrounds[6] = (ConstraintLayout) fragmentView.findViewById(R.id.cell7);
         //text
         cells[0] = (TextView)fragmentView.findViewById(R.id.cell1Text);
         cells[1] = (TextView)fragmentView.findViewById(R.id.cell2Text);
@@ -111,16 +125,10 @@ public class LessonsScheduleFragment extends Fragment {
         daysOfWeekText[3] = (TextView)fragmentView.findViewById(R.id.thuT);
         daysOfWeekText[4] = (TextView)fragmentView.findViewById(R.id.friT);
 
-
-
-
-        setVisibility();
-
         //day of week navigation bar onClickListener
         View.OnClickListener dayClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //index of TextView of previously selected day
                 int startTextInd = dayOfWeek-1;
 
@@ -210,10 +218,17 @@ public class LessonsScheduleFragment extends Fragment {
         for (int i = 0; i < daysOfWeekText.length; i++) {
             daysOfWeekText[i].setOnClickListener(dayClickListener);
         }
+
+
+        //determining should panels be shown
+        setVisibility();
+        setDayOfWeek(LocalDate.now().getDayOfWeek().getValue());
+
     }
 
     public void setDayOfWeek(int day){
-        daysOfWeekText[day-1].performClick();
+        if(day>=1 && day <= 5) daysOfWeekText[day-1].performClick();
+        else daysOfWeekText[0].performClick();
     }
 
     public void setVisibility(){
@@ -229,12 +244,39 @@ public class LessonsScheduleFragment extends Fragment {
 
     }
 
+    //method that loads the information from schedules
     public void showDay(){
         LocalDate currentDate = LocalDate.now();
         int currentDayOfWeek = currentDate.getDayOfWeek().getValue();
         Time currentTime = Time.getCurrent();
 
+        //selected date
+        LocalDate selectedDate = LocalDate.ofEpochDay(currentDate.toEpochDay() + (dayOfWeek - currentDayOfWeek));
+        String currentWeekDate = String.format("%02d.%02d.%02d", (int)selectedDate.getDayOfMonth(), (int)selectedDate.getMonth().getValue(), (int)selectedDate.getYear());
+        chosenDayDateLabel.setText(currentWeekDate);
 
+        //highlighting current lesson
+        if(dayOfWeek == currentDayOfWeek){
+            int currentLesson = 1;
+            for (int i = 1; i <= 7; i++) {
+                if(currentTime.isBetween(timeSchedule.getPreviousEnd(i), timeSchedule.getEnd(i))){
+                    currentLesson = i;
+                    break;
+                }
+            }
+
+            for (int i = 1; i <= 7; i++) {
+                if(i<currentLesson) cellBackgrounds[i-1].setBackgroundColor(getResources().getColor(R.color.green_40));
+                else if(i == currentLesson) cellBackgrounds[i-1].setBackgroundColor(getResources().getColor(R.color.green_60));
+                else cellBackgrounds[i-1].setBackgroundColor(getResources().getColor(R.color.green_20));
+            }
+
+        }
+        else {
+            for (int i = 1; i <= 7; i++) {
+                cellBackgrounds[i-1].setBackgroundColor(getResources().getColor(R.color.green_20));
+            }
+        }
 
         dayOfWeekLabel.setText(daysOfWeekNames[dayOfWeek-1]);
         String[] lessons = weekSchedule.GetSchedule(dayOfWeek, isNumeratorSwitch.isChecked());

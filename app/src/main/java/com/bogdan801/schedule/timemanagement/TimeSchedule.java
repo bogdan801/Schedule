@@ -60,4 +60,9 @@ public class TimeSchedule implements Serializable {
     public Time getEnd(int lesson){
         return lessonsTime[lesson-1].getEnd();
     }
+
+    public Time getPreviousEnd(int lesson) {
+        if(lesson == 1) return new Time(0,0);
+        else return lessonsTime[lesson-2].getEnd();
+    }
 }

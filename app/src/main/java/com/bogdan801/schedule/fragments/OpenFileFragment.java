@@ -102,6 +102,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         fragmentView = view;
 
+        //layout elements
         fileNameTextView = (TextView)view.findViewById(R.id.fileNameTextView);
         openButton = (Button)view.findViewById(R.id.openButton);
         majorSpinner = (Spinner)view.findViewById(R.id.majorSpinner);
@@ -190,9 +191,9 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
         });
 
         if(weekSelector!=null){
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
-            majorSpinner.setAdapter(adapter);
-            majorSpinner.setSelection(weekSelector.GetSelectedMajorIndex());
+            //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
+            //majorSpinner.setAdapter(adapter);
+            //majorSpinner.setSelection(weekSelector.GetSelectedMajorIndex());
 
             fileNameTextView.setText(getFileName(filePath));
         }
