@@ -25,8 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bogdan801.schedule.R;
+import com.bogdan801.schedule.timemanagement.Time;
 import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
+
+import java.time.LocalDate;
 
 public class LessonsScheduleFragment extends Fragment {
     //layout elements
@@ -63,11 +66,42 @@ public class LessonsScheduleFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         fragmentView = view;
-
-        basePanel = (ConstraintLayout)fragmentView.findViewById(R.id.basePanel);
+        //string array of names of days of week
         daysOfWeekNames = view.getResources().getStringArray(R.array.days_of_week);
+
+        //LAYOUT ELEMENTS
+
+        //general panel
+        basePanel = (ConstraintLayout)fragmentView.findViewById(R.id.basePanel);
+
+        //schedule panel
+
+        //day of week label
         dayOfWeekLabel = (TextView)fragmentView.findViewById(R.id.dayOfWeekLabel);
 
+        //schedule cells
+        //backgrounds
+
+        //text
+        cells[0] = (TextView)fragmentView.findViewById(R.id.cell1Text);
+        cells[1] = (TextView)fragmentView.findViewById(R.id.cell2Text);
+        cells[2] = (TextView)fragmentView.findViewById(R.id.cell3Text);
+        cells[3] = (TextView)fragmentView.findViewById(R.id.cell4Text);
+        cells[4] = (TextView)fragmentView.findViewById(R.id.cell5Text);
+        cells[5] = (TextView)fragmentView.findViewById(R.id.cell6Text);
+        cells[6] = (TextView)fragmentView.findViewById(R.id.cell7Text);
+
+        //switch
+        isNumeratorSwitch = (Switch)fragmentView.findViewById(R.id.isNumeratorSwitch);
+        isNumeratorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isNumeratorSwitch.setText((isChecked)?"Чисельник  ":"Знаменник ");
+                showDay();
+            }
+        });
+
+        //day of week selection panel
         dowPanel = (ConstraintLayout)fragmentView.findViewById(R.id.dayOfWeekPanel);
         dayIndicator = (FrameLayout)fragmentView.findViewById(R.id.dayIndicator);
 
@@ -77,22 +111,7 @@ public class LessonsScheduleFragment extends Fragment {
         daysOfWeekText[3] = (TextView)fragmentView.findViewById(R.id.thuT);
         daysOfWeekText[4] = (TextView)fragmentView.findViewById(R.id.friT);
 
-        cells[0] = (TextView)fragmentView.findViewById(R.id.cell1Text);
-        cells[1] = (TextView)fragmentView.findViewById(R.id.cell2Text);
-        cells[2] = (TextView)fragmentView.findViewById(R.id.cell3Text);
-        cells[3] = (TextView)fragmentView.findViewById(R.id.cell4Text);
-        cells[4] = (TextView)fragmentView.findViewById(R.id.cell5Text);
-        cells[5] = (TextView)fragmentView.findViewById(R.id.cell6Text);
-        cells[6] = (TextView)fragmentView.findViewById(R.id.cell7Text);
 
-        isNumeratorSwitch = (Switch)fragmentView.findViewById(R.id.isNumeratorSwitch);
-        isNumeratorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isNumeratorSwitch.setText((isChecked)?"Чисельник  ":"Знаменник ");
-                showDay();
-            }
-        });
 
 
         setVisibility();
@@ -211,6 +230,12 @@ public class LessonsScheduleFragment extends Fragment {
     }
 
     public void showDay(){
+        LocalDate currentDate = LocalDate.now();
+        int currentDayOfWeek = currentDate.getDayOfWeek().getValue();
+        Time currentTime = Time.getCurrent();
+
+
+
         dayOfWeekLabel.setText(daysOfWeekNames[dayOfWeek-1]);
         String[] lessons = weekSchedule.GetSchedule(dayOfWeek, isNumeratorSwitch.isChecked());
         for (int i = 0; i < cells.length; i++) {

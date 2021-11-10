@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 
 
 class TimeException extends RuntimeException{
@@ -24,6 +25,12 @@ public class Time implements Serializable {
 
     public Time(String timeString){
         parseTimeFromString(timeString);
+    }
+
+
+    public static Time getCurrent(){
+        LocalTime now = LocalTime.now();
+        return new Time(now.getHour(), now.getMinute());
     }
 
     public void setHours(int hours) {
