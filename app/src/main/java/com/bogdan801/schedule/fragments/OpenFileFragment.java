@@ -67,6 +67,12 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     ActivityResultLauncher<Intent> openFileActivityLauncher;
     Uri filePath;
 
+
+    private int previouslySelectedMajor = 0;
+    private int previouslySelectedYear = 0;
+    private int previouslySelectedGroup = 0;
+
+
     public OpenFileFragment() {}
 
     //getting parent activity
@@ -146,7 +152,8 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
                 weekSelector.SelectMajor(position);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllYearsAsList());
                 yearSpinner.setAdapter(adapter);
-                yearSpinner.setSelection(weekSelector.GetSelectedYearIndex());
+                //Toast.makeText(getActivity(), weekSelector.GetAllYearsAsList().toString(), Toast.LENGTH_SHORT).show();
+                yearSpinner.setSelection(previouslySelectedYear, false);
             }
 
             @Override
@@ -159,7 +166,8 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
                 weekSelector.SelectYear(position);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllGroupsAsList());
                 groupSpinner.setAdapter(adapter);
-                groupSpinner.setSelection(weekSelector.GetSelectedGroupIndex());
+                //Toast.makeText(getActivity(), weekSelector.GetAllGroupsAsList().toString(), Toast.LENGTH_SHORT).show();
+                groupSpinner.setSelection(previouslySelectedGroup, false);
             }
 
             @Override
@@ -191,10 +199,14 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
         });
 
         if(weekSelector!=null){
-            //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
-            //majorSpinner.setAdapter(adapter);
-            //majorSpinner.setSelection(weekSelector.GetSelectedMajorIndex());
+            previouslySelectedMajor = weekSelector.GetSelectedMajorIndex();
+            previouslySelectedYear = weekSelector.GetSelectedYearIndex();
+            previouslySelectedGroup = weekSelector.GetSelectedGroupIndex();
 
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
+            majorSpinner.setAdapter(adapter);
+            majorSpinner.setSelection(previouslySelectedMajor, false);
+            //Toast.makeText(getActivity(), weekSelector.GetAllMajorsAsList().toString(), Toast.LENGTH_SHORT).show();
             fileNameTextView.setText(getFileName(filePath));
         }
     }
