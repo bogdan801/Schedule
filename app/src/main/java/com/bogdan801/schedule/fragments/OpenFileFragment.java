@@ -152,8 +152,9 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
                 weekSelector.SelectMajor(position);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllYearsAsList());
                 yearSpinner.setAdapter(adapter);
-                //Toast.makeText(getActivity(), weekSelector.GetAllYearsAsList().toString(), Toast.LENGTH_SHORT).show();
+
                 yearSpinner.setSelection(previouslySelectedYear, false);
+                previouslySelectedYear = 0;
             }
 
             @Override
@@ -166,8 +167,9 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
                 weekSelector.SelectYear(position);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllGroupsAsList());
                 groupSpinner.setAdapter(adapter);
-                //Toast.makeText(getActivity(), weekSelector.GetAllGroupsAsList().toString(), Toast.LENGTH_SHORT).show();
+
                 groupSpinner.setSelection(previouslySelectedGroup, false);
+                previouslySelectedGroup = 0;
             }
 
             @Override
@@ -177,8 +179,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
         groupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedColumn = weekSelector.SelectGroupAsColumnNum(groupSpinner.getSelectedItemPosition());
-                //weekSchedule = weekSelector.SelectGroupAsWeek(groupSpinner.getSelectedItemPosition());
+                selectedColumn = weekSelector.SelectGroupAsColumnNum(position);
             }
 
             @Override
@@ -188,7 +189,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
         chooseScheduleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                weekSchedule = new WeekSchedule(workbook, selectedColumn);
+                if(selectedColumn != -1)weekSchedule = new WeekSchedule(workbook, selectedColumn);
                 if (weekSchedule!=null){
                     ((MainActivity)getActivity()).updateWeekSchedule(weekSchedule);
                     ((MainActivity)getActivity()).Serialize(weekSchedule, "week.bin");
@@ -205,10 +206,18 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
             majorSpinner.setAdapter(adapter);
+
             majorSpinner.setSelection(previouslySelectedMajor, false);
-            //Toast.makeText(getActivity(), weekSelector.GetAllMajorsAsList().toString(), Toast.LENGTH_SHORT).show();
+            previouslySelectedMajor = 0;
+
             fileNameTextView.setText(getFileName(filePath));
         }
+    }
+
+    private void selectWeekSchedule(int major, int year, int group){
+        majorSpinner.setSelection(major);
+        yearSpinner.setSelection(year);
+        groupSpinner.setSelection(group);
     }
 
     private void readExel(Uri path){
@@ -223,7 +232,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
 
             fileNameTextView.setText(getFileName(path));
         } catch (IOException e) {
-            Log.d("puk", "не прочитано бо: " + e.getLocalizedMessage());
+            Log.d("bob", "не прочитано бо: " + e.getLocalizedMessage());
             Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     }

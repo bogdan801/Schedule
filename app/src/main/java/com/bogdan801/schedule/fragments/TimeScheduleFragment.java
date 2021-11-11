@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bogdan801.schedule.R;
+import com.bogdan801.schedule.activities.MainActivity;
 import com.bogdan801.schedule.timemanagement.Time;
 import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
@@ -94,6 +95,7 @@ public class TimeScheduleFragment extends Fragment {
         for (int i = 0; i < 7; i++) {
             timeCells[1][i].setText(schedule.getEnd(i+1).toString());
         }
+        ((MainActivity)getActivity()).updateTimeSchedule(schedule);
     }
 
     //time cell onClickListener
@@ -192,8 +194,8 @@ public class TimeScheduleFragment extends Fragment {
                     //figuring out if selected time is in the permissible bounds;
                     //if yes - updating timeSchedule with selected time;
                     //if no - showing the corresponding message
-                    if(time.isBetween(start, end) && index[0]==0) timeSchedule.setStart(index[1], time);
-                    else if(time.isBetween(start, end) && index[0]==1) timeSchedule.setEnd(index[1], time);
+                    if(time.isBetween(start, end, true) && index[0]==0) timeSchedule.setStart(index[1], time);
+                    else if(time.isBetween(start, end, true) && index[0]==1) timeSchedule.setEnd(index[1], time);
                     else {
                         Toast.makeText(
                                 getActivity(),

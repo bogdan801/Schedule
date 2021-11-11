@@ -63,8 +63,16 @@ public class Time implements Serializable {
         return hours < t.hours || (hours == t.hours && minutes < t.minutes);
     }
 
-    public  boolean isBetween(Time start, Time end){
-        return this.isGreater(start) && this.isLesser(end);
+    public boolean isGreaterOrEquals(Time t){
+        return hours > t.hours || (hours == t.hours && minutes >= t.minutes);
+    }
+
+    public boolean isLesserOrEquals(Time t){
+        return hours < t.hours || (hours == t.hours && minutes <= t.minutes);
+    }
+
+    public  boolean isBetween(Time start, Time end, boolean includeBounds){
+        return (includeBounds)?this.isGreaterOrEquals(start) && this.isLesserOrEquals(end):this.isGreater(start) && this.isLesser(end);
     }
 
     public void parseTimeFromString(String timeString){

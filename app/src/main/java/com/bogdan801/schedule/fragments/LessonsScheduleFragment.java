@@ -25,12 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bogdan801.schedule.R;
+import com.bogdan801.schedule.activities.MainActivity;
 import com.bogdan801.schedule.timemanagement.Time;
 import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 
 import org.apache.poi.ss.formula.functions.T;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -111,6 +113,7 @@ public class LessonsScheduleFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 isNumeratorSwitch.setText((isChecked)?"Чисельник  ":"Знаменник ");
+                ((MainActivity)getActivity()).Serialize(isChecked, "switch.bin");
                 showDay();
             }
         });
@@ -223,6 +226,11 @@ public class LessonsScheduleFragment extends Fragment {
         //determining should panels be shown
         setVisibility();
         setDayOfWeek(LocalDate.now().getDayOfWeek().getValue());
+        try {
+            setSwitch((Boolean)((MainActivity)getActivity()).Deserialize("switch.bin"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -244,6 +252,9 @@ public class LessonsScheduleFragment extends Fragment {
 
     }
 
+    public void setSwitch(boolean value){
+        isNumeratorSwitch.setChecked(value);
+    }
     //method that loads the information from schedules
     public void showDay(){
         LocalDate currentDate = LocalDate.now();
@@ -251,7 +262,8 @@ public class LessonsScheduleFragment extends Fragment {
         Time currentTime = Time.getCurrent();
 
         //selected date
-        LocalDate selectedDate = LocalDate.ofEpochDay(currentDate.toEpochDay() + (dayOfWeek - currentDayOfWeek));
+        int offsetDays = ((currentDayOfWeek<=5)?(dayOfWeek - currentDayOfWeek):(7-currentDayOfWeek+dayOfWeek));
+        LocalDate selectedDate = LocalDate.ofEpochDay(currentDate.toEpochDay() + offsetDays);
         String currentWeekDate = String.format("%02d.%02d.%02d", (int)selectedDate.getDayOfMonth(), (int)selectedDate.getMonth().getValue(), (int)selectedDate.getYear());
         chosenDayDateLabel.setText(currentWeekDate);
 
@@ -259,7 +271,7 @@ public class LessonsScheduleFragment extends Fragment {
         if(dayOfWeek == currentDayOfWeek){
             int currentLesson = 1;
             for (int i = 1; i <= 7; i++) {
-                if(currentTime.isBetween(timeSchedule.getPreviousEnd(i), timeSchedule.getEnd(i))){
+                if(currentTime.isBetween(timeSchedule.getPreviousEnd(i), timeSchedule.getEnd(i), true)){
                     currentLesson = i;
                     break;
                 }

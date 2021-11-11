@@ -115,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
         lsFrag.setVisibility();
         lsFrag.showDay();
     }
+    public void updateTimeSchedule(TimeSchedule timeSchedule){
+        lsFrag.setUpSchedules(weekSchedule, timeSchedule);
+        lsFrag.setVisibility();
+        lsFrag.showDay();
+    }
 
     public void Serialize(Object o, String fileName){
         try {
@@ -124,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             os.close();
             fos.close();
         }catch (IOException e){
-            Log.d("puk", e.getLocalizedMessage());
+            Log.d("bob", e.getLocalizedMessage());
         }
     }
 
@@ -137,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             is.close();
             fis.close();
         }catch (IOException e){
-            Log.d("puk", e.getLocalizedMessage());
+            Log.d("bob", e.getLocalizedMessage());
             throw e;
         }catch (ClassNotFoundException ignored){}
         return o;
