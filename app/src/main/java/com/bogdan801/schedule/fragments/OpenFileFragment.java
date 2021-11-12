@@ -1,21 +1,15 @@
 package com.bogdan801.schedule.fragments;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -26,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,21 +28,14 @@ import com.bogdan801.schedule.R;
 import com.bogdan801.schedule.activities.MainActivity;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSelector;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class OpenFileFragment extends BottomSheetDialogFragment {
-    //patent activity
-    private FragmentActivity listener;
-    private View fragmentView;
-
     private XSSFWorkbook workbook;
     private WeekSchedule weekSchedule;
     private WeekSelector weekSelector;
@@ -63,26 +49,14 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     private Spinner groupSpinner;
     private Button chooseScheduleButton;
 
-
     ActivityResultLauncher<Intent> openFileActivityLauncher;
     Uri filePath;
-
 
     private int previouslySelectedMajor = 0;
     private int previouslySelectedYear = 0;
     private int previouslySelectedGroup = 0;
 
-
     public OpenFileFragment() {}
-
-    //getting parent activity
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity){
-            this.listener = (FragmentActivity) context;
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +66,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ContextThemeWrapper ctw = new  ContextThemeWrapper(listener.getApplicationContext(), R.style.Theme_Schedule);
+        ContextThemeWrapper ctw = new  ContextThemeWrapper(getActivity().getApplicationContext(), R.style.Theme_Schedule);
         return inflater.cloneInContext(ctw).inflate(R.layout.fragment_open_file, container, false);
     }
 
@@ -106,51 +80,43 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     //creating lookups and attaching view listeners
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        fragmentView = view;
-
         //layout elements
-        fileNameTextView = (TextView)view.findViewById(R.id.fileNameTextView);
-        openButton = (Button)view.findViewById(R.id.openButton);
-        majorSpinner = (Spinner)view.findViewById(R.id.majorSpinner);
-        yearSpinner = (Spinner)view.findViewById(R.id.yearSpinner);
-        groupSpinner = (Spinner)view.findViewById(R.id.groupSpinner);
-        chooseScheduleButton = (Button)view.findViewById(R.id.chooseScheduleButton);
+        fileNameTextView = view.findViewById(R.id.fileNameTextView);
+        openButton = view.findViewById(R.id.openButton);
+        majorSpinner = view.findViewById(R.id.majorSpinner);
+        yearSpinner = view.findViewById(R.id.yearSpinner);
+        groupSpinner = view.findViewById(R.id.groupSpinner);
+        chooseScheduleButton = view.findViewById(R.id.chooseScheduleButton);
 
         openFileActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            filePath = data.getData();
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        filePath = data.getData();
 
-                            final int takeFlags = data.getFlags()
-                                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                            getActivity().getContentResolver().takePersistableUriPermission(filePath, takeFlags);
+                        final int takeFlags = data.getFlags()
+                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getActivity().getContentResolver().takePersistableUriPermission(filePath, takeFlags);
 
-                            readExel(filePath);
-                        }
+                        readExel(filePath);
                     }
                 }
         );
 
-        openButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                myIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                myIntent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-                openFileActivityLauncher.launch(myIntent);
-            }
+        openButton.setOnClickListener(v -> {
+            Intent myIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            myIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            myIntent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            openFileActivityLauncher.launch(myIntent);
         });
 
         majorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 weekSelector.SelectMajor(position);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllYearsAsList());
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllYearsAsList());
                 yearSpinner.setAdapter(adapter);
 
                 yearSpinner.setSelection(previouslySelectedYear, false);
@@ -165,7 +131,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 weekSelector.SelectYear(position);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllGroupsAsList());
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllGroupsAsList());
                 groupSpinner.setAdapter(adapter);
 
                 groupSpinner.setSelection(previouslySelectedGroup, false);
@@ -186,17 +152,14 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        chooseScheduleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(selectedColumn != -1)weekSchedule = new WeekSchedule(workbook, selectedColumn);
-                if (weekSchedule!=null){
-                    ((MainActivity)getActivity()).updateWeekSchedule(weekSchedule);
-                    ((MainActivity)getActivity()).Serialize(weekSchedule, "week.bin");
-                    dismiss();
-                }
-                else Toast.makeText(getActivity(), "Розклад не був вибраний!", Toast.LENGTH_SHORT).show();
+        chooseScheduleButton.setOnClickListener(v -> {
+            if(selectedColumn != -1)weekSchedule = new WeekSchedule(workbook, selectedColumn);
+            if (weekSchedule!=null){
+                ((MainActivity)getActivity()).updateWeekSchedule(weekSchedule);
+                ((MainActivity)getActivity()).Serialize(weekSchedule, "week.bin");
+                dismiss();
             }
+            else Toast.makeText(getActivity(), "Розклад не був вибраний!", Toast.LENGTH_SHORT).show();
         });
 
         if(weekSelector!=null){
@@ -204,7 +167,7 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
             previouslySelectedYear = weekSelector.GetSelectedYearIndex();
             previouslySelectedGroup = weekSelector.GetSelectedGroupIndex();
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
             majorSpinner.setAdapter(adapter);
 
             majorSpinner.setSelection(previouslySelectedMajor, false);
@@ -214,19 +177,13 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
         }
     }
 
-    private void selectWeekSchedule(int major, int year, int group){
-        majorSpinner.setSelection(major);
-        yearSpinner.setSelection(year);
-        groupSpinner.setSelection(group);
-    }
-
     private void readExel(Uri path){
         try {
             FileInputStream fis = (FileInputStream) getActivity().getContentResolver().openInputStream(path);
             workbook = new XSSFWorkbook(fis);
             weekSelector = new WeekSelector(workbook, 0);
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, weekSelector.GetAllMajorsAsList());
             majorSpinner.setAdapter(adapter);
             majorSpinner.setSelection(weekSelector.GetSelectedMajorIndex());
 
@@ -240,13 +197,10 @@ public class OpenFileFragment extends BottomSheetDialogFragment {
     public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
-            Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-            try {
+            try (Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 }
-            } finally {
-                cursor.close();
             }
         }
         if (result == null) {

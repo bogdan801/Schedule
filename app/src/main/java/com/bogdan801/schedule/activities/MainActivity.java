@@ -1,17 +1,12 @@
 package com.bogdan801.schedule.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.bogdan801.schedule.adapters.MainViewPageAdapter;
 import com.bogdan801.schedule.fragments.LessonsScheduleFragment;
@@ -21,8 +16,6 @@ import com.bogdan801.schedule.fragments.TimeScheduleFragment;
 import com.bogdan801.schedule.timemanagement.TimeSchedule;
 import com.bogdan801.schedule.weekmanagement.WeekSchedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 
@@ -34,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     WeekSchedule weekSchedule = new WeekSchedule();
     TimeSchedule timeSchedule = new TimeSchedule();
-    XSSFWorkbook workbook;
 
     ViewPager2 fragmentPager;
     ImageButton lsButton, tsButton;
@@ -46,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragmentPager = (ViewPager2)findViewById(R.id.fragmentPager);
-        lsButton = (ImageButton)findViewById(R.id.lsButton);
-        tsButton = (ImageButton)findViewById(R.id.tsButton);
-        ofButton = (FloatingActionButton)findViewById(R.id.openFileButton);
+        fragmentPager = findViewById(R.id.fragmentPager);
+        lsButton = findViewById(R.id.lsButton);
+        tsButton = findViewById(R.id.tsButton);
+        ofButton = findViewById(R.id.openFileButton);
         tsButton.getBackground().setAlpha(0);
 
         fragmentPager.setAdapter(adapter);
@@ -70,43 +62,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        lsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (activeFragment!=0){
-                    activeFragment = 0;
-                    fragmentPager.setCurrentItem(0, true);
-                }
+        lsButton.setOnClickListener(v -> {
+            if (activeFragment!=0){
+                activeFragment = 0;
+                fragmentPager.setCurrentItem(0, true);
             }
         });
 
-        tsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (activeFragment!=1){
-                    activeFragment = 1;
-                    fragmentPager.setCurrentItem(1, true);
-                }
+        tsButton.setOnClickListener(v -> {
+            if (activeFragment!=1){
+                activeFragment = 1;
+                fragmentPager.setCurrentItem(1, true);
             }
         });
 
-        ofButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ofFrag.show(getSupportFragmentManager(), ofFrag.getTag());
-            }
-        });
+        ofButton.setOnClickListener(v -> ofFrag.show(getSupportFragmentManager(), ofFrag.getTag()));
 
 
         try {
             weekSchedule = (WeekSchedule) Deserialize("week.bin");
+            timeSchedule = (TimeSchedule) Deserialize("time.bin");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
         lsFrag.setUpSchedules(weekSchedule, timeSchedule);
-        tsFrag.setUpSchedules(weekSchedule, timeSchedule);
+        tsFrag.setUpTimeSchedule(timeSchedule);
     }
 
     public void updateWeekSchedule(WeekSchedule weekSchedule){
@@ -115,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         lsFrag.setVisibility();
         lsFrag.showDay();
     }
+
     public void updateTimeSchedule(TimeSchedule timeSchedule){
         lsFrag.setUpSchedules(weekSchedule, timeSchedule);
         lsFrag.setVisibility();
