@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание НУБиП</string>
+    <string name="num">"Числитель    "</string>
+    <string name="denom">Знаменатель</string>
+    <string name="mon">ПН</string>
+    <string name="tue">ВТ</string>
+    <string name="wen">СР</string>
+    <string name="thu">ЧТ</string>
+    <string name="fri">ПТ</string>
+    <string name="tsTitle">Расписание\n начала и окончания занятий</string>
+    <string name="defaultFileName">Файл расписания (.xlsx)</string>
+    <string name="ofOpenButton">ОТКРЫТЬ</string>
+    <string name="ofChooseButton">ВЫБРАТЬ РАСПИСАНИЕ</string>
+    <string name="ofMajor">Направление</string>
+    <string name="ofYear">Курс</string>
+    <string name="ofGroup">Группа</string>
+    <string name="monFull">ПОНЕДЕЛЬНИК</string>
+    <string name="tueFull">ВТОРНИК</string>
+    <string name="wenFull">СРЕДА</string>
+    <string name="thuFull">ЧЕТВЕРГ</string>
+    <string name="friFull">ПЯТНИЦА</string>
+    <string name="tsTime">Выберите время</string>
+</resources>

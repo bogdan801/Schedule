@@ -98,7 +98,7 @@ public class LessonsScheduleFragment extends Fragment {
         //switch
         isNumeratorSwitch = view.findViewById(R.id.isNumeratorSwitch);
         isNumeratorSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            isNumeratorSwitch.setText((isChecked)?"Чисельник  ":"Знаменник ");
+            isNumeratorSwitch.setText((isChecked)?getResources().getString(R.string.num):getResources().getString(R.string.denom));
             ((MainActivity)getActivity()).Serialize(isChecked, "switch.bin");
             showDay();
         });
@@ -214,6 +214,7 @@ public class LessonsScheduleFragment extends Fragment {
             e.printStackTrace();
         }
 
+        showDay();
     }
 
     //method to select day of week

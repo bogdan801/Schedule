@@ -90,7 +90,7 @@ public class TimeScheduleFragment extends Fragment {
                     .setTimeFormat(TimeFormat.CLOCK_24H)
                     .setHour(pickerDefaultTime.getHours())
                     .setMinute(pickerDefaultTime.getMinutes())
-                    .setTitleText("Оберіть час")
+                    .setTitleText(getResources().getString(R.string.tsTime))
                     .build();
 
             //adding event which occurs when user have picked the time

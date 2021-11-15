@@ -2,13 +2,36 @@
     <string name="app_name">Розклад НУБіП</string>
 
     <string-array name="days_of_week">
-        <item>ПОНЕДІЛОК</item>
-        <item>ВІВТОРОК</item>
-        <item>СЕРЕДА</item>
-        <item>ЧЕТВЕР</item>
-        <item>П\'ЯТНИЦЯ</item>
+        <item>@string/monFull</item>
+        <item>@string/tueFull</item>
+        <item>@string/wenFull</item>
+        <item>@string/thuFull</item>
+        <item>@string/friFull</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="monFull">ПОНЕДІЛОК</string>
+    <string name="tueFull">ВІВТОРОК</string>
+    <string name="wenFull">СЕРЕДА</string>
+    <string name="thuFull">ЧЕТВЕР</string>
+    <string name="friFull">П\'ЯТНИЦЯ</string>
+
+    <string name="num"  >Чисельник  </string>
+    <string name="denom">Знаменник </string>
+
+    <string name="mon">ПН</string>
+    <string name="tue">ВТ</string>
+    <string name="wen">СР</string>
+    <string name="thu">ЧТ</string>
+    <string name="fri">ПТ</string>
+
+    <string name="tsTitle">Розклад\nпочатку і закінчення занять</string>
+    <string name="tsTime">Оберіть час</string>
+
+    <string name="defaultFileName">Файл розкладу (.xlsx)</string>
+    <string name="ofOpenButton">ВІДКРИТИ</string>
+    <string name="ofChooseButton">ОБРАТИ РОЗКЛАД</string>
+    <string name="ofMajor">Напрям</string>
+    <string name="ofYear">Курс</string>
+    <string name="ofGroup">Група</string>
 
 </resources>

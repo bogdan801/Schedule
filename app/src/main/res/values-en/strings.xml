@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NULES Schedule</string>
+    <string name="num">"Numerator      "</string>
+    <string name="denom">"Denominator  "</string>
+    <string name="mon">MN</string>
+    <string name="tue">TU</string>
+    <string name="wen">WD</string>
+    <string name="thu">TH</string>
+    <string name="fri">FR</string>
+    <string name="tsTitle">Classes start and end schedule</string>
+    <string name="defaultFileName">Schedule file (.xlsx)</string>
+    <string name="ofOpenButton">OPEN</string>
+    <string name="ofChooseButton">CHOOSE SCHEDULE</string>
+    <string name="ofMajor">Major</string>
+    <string name="ofYear">Year</string>
+    <string name="ofGroup">Group</string>
+    <string name="monFull">MONDAY</string>
+    <string name="tueFull">TUESDAY</string>
+    <string name="wenFull">WEDNESDAY</string>
+    <string name="thuFull">THURSDAY</string>
+    <string name="friFull">FRIDAY</string>
+    <string name="tsTime">Select time</string>
+</resources>
