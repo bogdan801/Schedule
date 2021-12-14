@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -215,6 +216,28 @@ public class LessonsScheduleFragment extends Fragment {
         }
 
         showDay();
+
+        //thread to update the schedule each 10 seconds
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!this.isInterrupted()) {
+                        Thread.sleep(10000);
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showDay();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        thread.start();
     }
 
     //method to select day of week
@@ -283,9 +306,12 @@ public class LessonsScheduleFragment extends Fragment {
         }
 
         dayOfWeekLabel.setText(daysOfWeekNames[dayOfWeek-1]);
-        String[] lessons = weekSchedule.GetSchedule(dayOfWeek, isNumeratorSwitch.isChecked());
-        for (int i = 0; i < cells.length; i++) {
-            cells[i].setText(lessons[i]);
+        if(weekSchedule!=null){
+            String[] lessons = weekSchedule.GetSchedule(dayOfWeek, isNumeratorSwitch.isChecked());
+            for (int i = 0; i < cells.length; i++) {
+                cells[i].setText(lessons[i]);
+            }
         }
+
     }
 }
