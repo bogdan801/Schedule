@@ -8,23 +8,23 @@ This app does it for me. I'm not particularly proud of the quality of the code i
 
 ## Features
 - Reading and displaying a schedule of selected group of students from the spreadsheet file 
-- Show and edit time sheduale for lessons
+- Showing and being able to edit time schedule for lessons
 
 ## Overview
 ### Schedule screen
-<img src="promo/main.png" width="270" height="585">
+<img src="promo/main.png" width="270" height="546">
 
 ### Time schedule screen
 
-<img src="promo/schedule.png" width="270" height="585">
+<img src="promo/schedule.png" width="270" height="546">
 
 ### Edit time in schedule
 
-<img src="promo/editSchedule.png" width="270" height="585">
+<img src="promo/editSchedule.png" width="270" height="546">
 
 ### Open spreadsheet file
 
-<img src="promo/select.png" width="270" height="585">
+<img src="promo/select.png" width="270" height="546">
 
 ## Technologies used to make an app
 - Java
