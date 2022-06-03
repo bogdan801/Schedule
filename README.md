@@ -31,9 +31,7 @@ This app does it for me. I'm not particularly proud of the quality of the code i
 - Android SDK
 
 ## License
-```
-1 lines (17 sloc)  1.04 KB
-   
+```  
 MIT License
 
 Copyright (c) 2022 bogdan801
