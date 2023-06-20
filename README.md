@@ -1,13 +1,13 @@
 <img src="promo/promo.png"/>
 
 # Schedule
-Schedule app for my University. Created to fix the issue of constantly searching for my schedule in gigant spreadsheet file. 
-This app does it for me. I'm not particularly proud of the quality of the code in this app but it's my first project in this field.
+Schedule app for my University. Created to fix the issue of constantly searching for schedule in gigant spreadsheet file. 
+This app does the parsing of this file and displays the correct schedule. It's my first project in this field.
 
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Features
-- Reading and displaying a schedule of selected group of students from the spreadsheet file 
+- Reading and displaying a schedule of the selected group of students from the spreadsheet file 
 - Showing and being able to edit time schedule for lessons
 
 ## Overview
@@ -18,11 +18,11 @@ This app does it for me. I'm not particularly proud of the quality of the code i
 
 <img src="promo/schedule.png" width="270" height="546">
 
-### Edit time in schedule
+### Edit time in the schedule
 
 <img src="promo/editSchedule.png" width="270" height="546">
 
-### Open spreadsheet file
+### Open the spreadsheet file
 
 <img src="promo/select.png" width="270" height="546">
 
